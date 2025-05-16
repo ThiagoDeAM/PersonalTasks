@@ -6,4 +6,6 @@
     <string name="save">Salvar</string>
     <string name="date_dd_mm_yyyy">Data: dd/mm/yyyy</string>
     <string name="add_task">Adicionar tarefa</string>
+    <string name="remove_task">Remover tarefa</string>
+    <string name="edit_task">Editar tarefa</string>
 </resources>
