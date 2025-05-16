@@ -1,5 +1,6 @@
 package com.example.personaltasks.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -37,9 +38,13 @@ class TaskRvAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TaskRvAdapter.TaskViewHolder {
-        TODO("Not yet implemented")
-    }
+    ): TaskViewHolder = TaskViewHolder(
+        TileTaskBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
 
     override fun onBindViewHolder(holder: TaskRvAdapter.TaskViewHolder, position: Int) {
         TODO("Not yet implemented")
