@@ -10,6 +10,8 @@ import android.widget.TextView
 import com.example.personaltasks.R
 import com.example.personaltasks.databinding.TileTaskBinding
 import com.example.personaltasks.model.Task
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TaskAdapter(context: Context, private val taskList: MutableList<Task>):
     ArrayAdapter<Task>(
@@ -39,7 +41,8 @@ class TaskAdapter(context: Context, private val taskList: MutableList<Task>):
         val viewHolder = taskTileView.tag as TileTaskViewHolder
         viewHolder.titleTv.text = task.title
         viewHolder.descriptionTv.text = task.description
-        viewHolder.dateTv.text = task.limitDate
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        viewHolder.dateTv.text = formatter.format(task.limitDate)
 
         return taskTileView
     }
