@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/add_task_mi"
+        android:title="@string/add_task"
+        android:icon="@drawable/outline_add_box_24"
+        android:iconTint="@color/white"
+        app:showAsAction="always" />
+
+</menu>

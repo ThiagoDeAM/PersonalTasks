@@ -5,4 +5,5 @@
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
     <string name="date_dd_mm_yyyy">Data: dd/mm/yyyy</string>
+    <string name="add_task">Adicionar tarefa</string>
 </resources>
