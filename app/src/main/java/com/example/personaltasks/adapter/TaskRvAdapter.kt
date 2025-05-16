@@ -62,8 +62,6 @@ class TaskRvAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount(): Int = taskList.size
 
 }
