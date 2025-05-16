@@ -25,9 +25,13 @@ class TaskRvAdapter(
                     onTaskClickListener.onEditTaskMenuItemClick(adapterPosition)
                     true
                 }
+                menu.findItem(R.id.remove_task_mi).setOnMenuItemClickListener {
+                    onTaskClickListener.onRemoveTaskMenuItemClick(adapterPosition)
+                    true
+                }
             }
+            ttb.root.setOnClickListener{ onTaskClickListener.onTaskClick(adapterPosition) }
         }
-
     }
 
     override fun onCreateViewHolder(
