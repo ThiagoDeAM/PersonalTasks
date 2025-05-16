@@ -9,6 +9,8 @@ import com.example.personaltasks.R
 import com.example.personaltasks.databinding.TileTaskBinding
 import com.example.personaltasks.model.Task
 import com.example.personaltasks.ui.OnTaskClickListener
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TaskRvAdapter(
     private val taskList: MutableList<Task>,
@@ -46,8 +48,18 @@ class TaskRvAdapter(
         )
     )
 
-    override fun onBindViewHolder(holder: TaskRvAdapter.TaskViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(
+        holder: TaskViewHolder,
+        position: Int
+    ) {
+        taskList[position].let { task ->
+            with(holder) {
+                titleTv.text = task.title
+                descriptionTv.text = task.description
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                dateTv.text = formatter.format(task.limitDate)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
