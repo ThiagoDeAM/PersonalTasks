@@ -27,7 +27,7 @@ class MainController(mainActivity: MainActivity) {
     }
     fun getTask(id: Int) = taskDao.retrieveTask(id)
     fun getTasks() = taskDao.retrieveTasks()
-    fun modifyTasks(task: Task) {
+    fun modifyTask(task: Task) {
         MainScope().launch {
             withContext(Dispatchers.IO) {
                 taskDao.updateTask(task)
