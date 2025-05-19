@@ -3,10 +3,10 @@ package com.example.personaltasks.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import kotlinx.parcelize.Parcelize
-import java.sql.Date
+
 import com.example.personaltasks.model.Constant.INVALID_TASK_ID
+import java.util.Date
 
 
 @Parcelize
