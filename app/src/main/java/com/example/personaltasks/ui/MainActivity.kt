@@ -94,7 +94,10 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     override fun onEditTaskMenuItemClick(position: Int) {
-        TODO("Not yet implemented")
+        Intent(this, TaskActivity::class.java).apply {
+            putExtra(EXTRA_TASK, taskList[position])
+            carl.launch(this)
+        }
     }
 
     private fun fillContactList() {
