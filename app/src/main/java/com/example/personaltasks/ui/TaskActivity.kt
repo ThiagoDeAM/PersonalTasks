@@ -79,6 +79,10 @@ class TaskActivity : AppCompatActivity() {
                 }
                 finish()
             }
+
+            cancelBt.setOnClickListener {
+                finish()
+            }
         }
     }
 
