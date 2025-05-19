@@ -12,6 +12,7 @@ import com.example.personaltasks.adapter.TaskRvAdapter
 import com.example.personaltasks.controller.MainController
 import com.example.personaltasks.databinding.ActivityMainBinding
 import com.example.personaltasks.model.Constant.EXTRA_TASK
+import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
 
 class MainActivity : AppCompatActivity(), OnTaskClickListener {
@@ -77,7 +78,11 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     override fun onTaskClick(position: Int) {
-        TODO("Not yet implemented")
+        Intent(this, TaskActivity::class.java).apply {
+            putExtra(EXTRA_TASK, taskList[position])
+            putExtra(EXTRA_VIEW_TASK, true)
+            startActivity(this)
+        }
     }
 
     override fun onRemoveTaskMenuItemClick(position: Int) {
