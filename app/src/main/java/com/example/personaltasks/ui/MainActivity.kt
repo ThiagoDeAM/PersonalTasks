@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
 
         amb.taskRv.adapter = taskAdapter
         amb.taskRv.layoutManager = LinearLayoutManager(this)
+
+        fillContactList()
     }
 
     override fun onTaskClick(position: Int) {
@@ -80,5 +82,13 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
 
     override fun onEditTaskMenuItemClick(position: Int) {
         TODO("Not yet implemented")
+    }
+
+    private fun fillContactList() {
+        taskList.clear()
+        Thread {
+            taskList.addAll(mainController.getTasks())
+            taskAdapter.notifyDataSetChanged()
+        }
     }
 }
