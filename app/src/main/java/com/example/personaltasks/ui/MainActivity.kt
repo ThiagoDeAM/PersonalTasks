@@ -3,6 +3,7 @@ package com.example.personaltasks.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -86,7 +87,10 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     override fun onRemoveTaskMenuItemClick(position: Int) {
-        TODO("Not yet implemented")
+        mainController.removeTask(taskList[position])
+        taskList.removeAt(position)
+        taskAdapter.notifyItemRemoved(position)
+        Toast.makeText(this, "Tarefa removida!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onEditTaskMenuItemClick(position: Int) {
