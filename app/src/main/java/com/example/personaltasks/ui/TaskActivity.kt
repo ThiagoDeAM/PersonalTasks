@@ -34,10 +34,15 @@ class TaskActivity : AppCompatActivity() {
         }
         receivedTask?.let {
             with(atb) {
+                val calendar = Calendar.getInstance()
+                calendar.time = it.limitDate
+                limitDp.updateDate(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                )
                 titleEt.setText(it.title)
                 descriptionEt.setText(it.description)
-
-                //limitDp
 
                 val viewTask = intent.getBooleanExtra(EXTRA_VIEW_TASK, false)
                 if (viewTask) {
