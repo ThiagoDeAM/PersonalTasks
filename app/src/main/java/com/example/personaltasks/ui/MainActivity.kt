@@ -72,6 +72,10 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         fillContactList()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     override fun onTaskClick(position: Int) {
         TODO("Not yet implemented")
     }
