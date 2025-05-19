@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -80,6 +81,15 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.add_task_mi -> {
+                carl.launch(Intent(this, TaskActivity::class.java))
+                true
+            }
+            else -> { false }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
