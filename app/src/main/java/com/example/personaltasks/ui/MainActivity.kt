@@ -3,6 +3,7 @@ package com.example.personaltasks.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -73,6 +74,12 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
 
         fillContactList()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
