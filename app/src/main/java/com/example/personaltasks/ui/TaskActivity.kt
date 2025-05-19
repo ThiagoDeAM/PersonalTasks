@@ -11,6 +11,8 @@ import com.example.personaltasks.model.Constant
 import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
+import java.util.Calendar
+
 
 class TaskActivity : AppCompatActivity() {
     private val atb: ActivityTaskBinding by lazy {
@@ -42,10 +44,35 @@ class TaskActivity : AppCompatActivity() {
                     supportActionBar?.subtitle = "Visualizar tarefa"
                     titleEt.isEnabled = false
                     descriptionEt.isEnabled = false
-                    //limitDp.isEnabled = false
+                    limitDp.isEnabled = false
                     saveBt.visibility = View.GONE
-                    //cancelBt.visibility = View.GONE
+                    cancelBt.visibility = View.GONE
                 }
+            }
+        }
+
+        with(atb) {
+            saveBt.setOnClickListener {
+                val calendar = Calendar.getInstance()
+                calendar.set(
+                    limitDp.year,
+                    limitDp.month,
+                    limitDp.dayOfMonth
+                )
+                val selectedDate = calendar.time
+
+                Task (
+                    id = receivedTask?.id?:hashCode(),
+                    title = titleEt.text.toString(),
+                    description = descriptionEt.text.toString(),
+                    limitDate = selectedDate
+                ).let { task ->
+                    Intent().apply {
+                        putExtra(EXTRA_TASK, task)
+                        setResult(RESULT_OK, this)
+                    }
+                }
+                finish()
             }
         }
     }
