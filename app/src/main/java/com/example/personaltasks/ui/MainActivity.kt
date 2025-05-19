@@ -37,6 +37,37 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(amb.root)
+
+        setSupportActionBar(amb.toolbarIn.toolbar)
+        supportActionBar?.subtitle = getString(R.string.task_list)
+
+        carl = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result ->
+            if (result.resultCode == RESULT_OK){
+                val task = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                    result.data?.getParcelableExtra(EXTRA_TASK, Task::class.java)
+                }
+                else {
+                    result.data?.getParcelableExtra<Task>(EXTRA_TASK)
+                }
+                task?.let { receivedTask ->
+                    val position = taskList.indexOfFirst { it.id == receivedTask.id }
+                    if (position == -1) {
+                        taskList.add(receivedTask)
+                        taskAdapter.notifyItemInserted(taskList.lastIndex)
+                        mainController.insertTask(receivedTask)
+                    }
+                    else {
+                        taskList[position] = receivedTask
+                        taskAdapter.notifyItemChanged(position)
+                        mainController.modifyTask(receivedTask)
+                    }
+                }
+            }
+        }
+
+        amb.taskRv.adapter = taskAdapter
+        amb.taskRv.layoutManager = LinearLayoutManager(this)
     }
 
     override fun onTaskClick(position: Int) {
