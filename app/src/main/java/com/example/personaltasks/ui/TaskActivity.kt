@@ -12,12 +12,15 @@ import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
 import java.util.Calendar
+import java.util.Date
 
 
 class TaskActivity : AppCompatActivity() {
     private val atb: ActivityTaskBinding by lazy {
         ActivityTaskBinding.inflate(layoutInflater)
     }
+
+    private var selectedDate: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
