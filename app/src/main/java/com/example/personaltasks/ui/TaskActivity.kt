@@ -1,5 +1,6 @@
 package com.example.personaltasks.ui
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -58,6 +59,23 @@ class TaskActivity : AppCompatActivity() {
         }
 
         with(atb) {
+            limitDateBt.setOnClickListener {
+                val calendar = Calendar.getInstance()
+                selectedDate?.let { calendar.time = it }
+
+                DatePickerDialog(
+                    this@TaskActivity,
+                    {_, year, month, dayOfMonth ->
+                        calendar.set(year, month, dayOfMonth)
+                        selectedDate = calendar.time
+                        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        limitDateBt.text = sdf.format(selectedDate!!)
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
             saveBt.setOnClickListener {
                 val calendar = Calendar.getInstance()
                 calendar.set(
