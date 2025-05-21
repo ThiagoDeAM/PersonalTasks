@@ -50,7 +50,7 @@ class TaskActivity : AppCompatActivity() {
                     supportActionBar?.subtitle = "Visualizar tarefa"
                     titleEt.isEnabled = false
                     descriptionEt.isEnabled = false
-                    limitDp.isEnabled = false
+                    limitDateBt.isEnabled = false
                     saveBt.visibility = View.GONE
                     cancelBt.visibility = View.GONE
                 }
