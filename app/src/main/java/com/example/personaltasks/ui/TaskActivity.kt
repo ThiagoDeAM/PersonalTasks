@@ -11,8 +11,10 @@ import com.example.personaltasks.model.Constant
 import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 
 class TaskActivity : AppCompatActivity() {
@@ -37,13 +39,9 @@ class TaskActivity : AppCompatActivity() {
         }
         receivedTask?.let {
             with(atb) {
-                val calendar = Calendar.getInstance()
-                calendar.time = it.limitDate
-                limitDp.updateDate(
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-                )
+                selectedDate = it.limitDate
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                limitDateBt.text = sdf.format(selectedDate!!)
                 titleEt.setText(it.title)
                 descriptionEt.setText(it.description)
 
