@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.personaltasks.R
 import com.example.personaltasks.adapter.TaskRvAdapter
@@ -17,6 +18,9 @@ import com.example.personaltasks.databinding.ActivityMainBinding
 import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), OnTaskClickListener {
     private val amb: ActivityMainBinding by lazy {
@@ -118,9 +122,12 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     private fun fillContactList() {
-        taskList.clear()
-        Thread {
-            taskList.addAll(mainController.getTasks())
+        lifecycleScope.launch {
+            val tasks = withContext(Dispatchers.IO) {
+                mainController.getTasks()
+            }
+            taskList.clear()
+            taskList.addAll(tasks)
             taskAdapter.notifyDataSetChanged()
         }
     }
