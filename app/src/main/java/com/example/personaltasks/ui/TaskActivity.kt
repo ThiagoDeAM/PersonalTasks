@@ -76,20 +76,13 @@ class TaskActivity : AppCompatActivity() {
                     calendar.get(Calendar.DAY_OF_MONTH)
                 ).show()
             }
-            saveBt.setOnClickListener {
-                val calendar = Calendar.getInstance()
-                calendar.set(
-                    limitDp.year,
-                    limitDp.month,
-                    limitDp.dayOfMonth
-                )
-                val selectedDate = calendar.time
 
+            saveBt.setOnClickListener {
                 Task (
                     id = receivedTask?.id?:hashCode(),
                     title = titleEt.text.toString(),
                     description = descriptionEt.text.toString(),
-                    limitDate = selectedDate
+                    limitDate = selectedDate ?: Date()
                 ).let { task ->
                     Intent().apply {
                         putExtra(EXTRA_TASK, task)
