@@ -10,14 +10,26 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Controlador responsável por intermediar o acesso entre a camada de UI (Activity)
+ * e o banco de dados local (Room). Gerencia as operações de inserção, recuperação,
+ * atualização e remoção de tarefas.
+ *
+ * @param mainActivity contexto da Activity principal, utilizado para instanciar o banco
+ */
 class MainController(mainActivity: MainActivity) {
 
+    // Instancia o DAO de tarefas usando Room
     private val taskDao: TaskDao = Room.databaseBuilder(
         mainActivity,
         TaskRoomDb::class.java,
         "task-database"
     ).build().taskDao()
 
+    /**
+     * Insere uma nova tarefa no banco de dados utilizando corrotina
+     * A operação é assíncrona para não travar a UI
+     */
     fun insertTask(task: Task) {
         MainScope().launch {
             withContext(Dispatchers.IO) {
@@ -27,6 +39,11 @@ class MainController(mainActivity: MainActivity) {
     }
     fun getTask(id: Int) = taskDao.retrieveTask(id)
     fun getTasks() = taskDao.retrieveTasks()
+
+    /**
+     * Atualiza os dados de uma tarefa existente no banco.
+     * Executa em segundo plano com corrotina.
+     */
     fun modifyTask(task: Task) {
         MainScope().launch {
             withContext(Dispatchers.IO) {
@@ -35,6 +52,10 @@ class MainController(mainActivity: MainActivity) {
         }
     }
 
+    /**
+     * Remove uma tarefa do banco de dados
+     * Executa em corrotina fora da thread principal
+     */
     fun removeTask(task: Task) {
         MainScope().launch {
             withContext(Dispatchers.IO) {
@@ -42,6 +63,4 @@ class MainController(mainActivity: MainActivity) {
             }
         }
     }
-
-
 }
