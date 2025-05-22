@@ -1,11 +1,14 @@
 package com.example.personaltasks.model
-
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
+/**
+ * DAO (Data Access Object) responsável pelas operações de acesso ao banco de dados
+ * relacionadas à entidade Task. Utiliza as anotações do Room para mapear comandos SQL.
+ */
 @Dao
 interface TaskDao {
     @Insert
