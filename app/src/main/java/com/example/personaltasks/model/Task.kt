@@ -8,7 +8,11 @@ import kotlinx.parcelize.Parcelize
 import com.example.personaltasks.model.Constant.INVALID_TASK_ID
 import java.util.Date
 
-
+/**
+ * Entidade que representa uma tarefa na aplicação.
+ * Mapeada como uma tabela no banco de dados local usando Room.
+ * Implementa Parcelable para permitir passagem entre Activities via Intent.
+ */
 @Parcelize
 @Entity
 data class Task(
