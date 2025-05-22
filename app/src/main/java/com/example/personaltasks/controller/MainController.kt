@@ -40,27 +40,13 @@ class MainController(mainActivity: MainActivity) {
 
     /**
      * Recupera uma única tarefa pelo seu ID.
-     * Executa em corrotina
      */
-    fun getTask(id: Int) {
-        MainScope().launch {
-            withContext(Dispatchers.IO) {
-                taskDao.retrieveTask(id)
-            }
-        }
-    }
+    fun getTask(id: Int) = taskDao.retrieveTask(id)
 
     /**
      * Recupera todas as tarefas salvas no banco de dados.
-     * Executa em corrotina
      */
-    fun getTasks() {
-        MainScope().launch {
-            withContext(Dispatchers.IO) {
-                taskDao.retrieveTasks()
-            }
-        }
-    }
+    fun getTasks() = taskDao.retrieveTasks()
 
     /**
      * Atualiza os dados de uma tarefa existente no banco.
