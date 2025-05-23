@@ -62,3 +62,7 @@ com.example.personaltasks
 - Clique em **Salvar** para registrar a tarefa ou em **Cancelar** para ignorar os dados preenchidos e voltar à Tela 1
 - Clique sobre uma tarefa para visualizá-la
 - Use o menu de contexto para editar ou remover uma tarefa
+
+## Vídeo
+
+- [Execução final do Aplicativo](https://tinyurl.com/554e29er)
