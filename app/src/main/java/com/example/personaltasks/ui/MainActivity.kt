@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Responsável por exibir a lista de tarefas e permitir sua criação, edição e remoção.
+ * Responsável por exibir a lista de tarefas e permitir sua criação, edição e remoção
  * Utiliza RecyclerView com um adapter e Room para persistência local.
  */
 class MainActivity : AppCompatActivity(), OnTaskClickListener {
