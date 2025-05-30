@@ -20,6 +20,7 @@ data class Task(
     var id: Int? = INVALID_TASK_ID,
     var title: String = "",
     var description: String = "",
-    var limitDate: Date
+    var limitDate: Date,
+    var done: Boolean = false
 
 ): Parcelable

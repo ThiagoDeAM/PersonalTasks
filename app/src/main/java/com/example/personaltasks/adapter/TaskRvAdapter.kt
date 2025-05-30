@@ -78,6 +78,14 @@ class TaskRvAdapter(
                 descriptionTv.text = task.description
                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 dateTv.text = formatter.format(task.limitDate)
+
+                if (task.done) {
+                    titleTv.text = task.title + " [Realizada]"
+                }
+                else {
+                    titleTv.text = task.title + " [Pendente]"
+                }
+
             }
         }
     }

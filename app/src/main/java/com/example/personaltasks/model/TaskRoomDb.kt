@@ -10,7 +10,7 @@ import androidx.room.TypeConverters
  * Define as entidades persistidas
  * Define a versão do banco
  */
-@Database(entities = [Task::class], version = 1)
+@Database(entities = [Task::class], version = 2)
 @TypeConverters(Converters::class) // Usado para tipos não primitivos
 abstract class TaskRoomDb: RoomDatabase() {
 

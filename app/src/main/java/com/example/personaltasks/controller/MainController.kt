@@ -24,7 +24,9 @@ class MainController(mainActivity: MainActivity) {
         mainActivity,
         TaskRoomDb::class.java,
         "task-database"
-    ).build().taskDao()
+    )
+        .fallbackToDestructiveMigration(false)
+        .build().taskDao()
 
     /**
      * Insere uma nova tarefa no banco de dados utilizando corrotina

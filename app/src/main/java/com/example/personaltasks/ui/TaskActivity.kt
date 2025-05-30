@@ -55,6 +55,7 @@ class TaskActivity : AppCompatActivity() {
                 // Preenche os campos de texto
                 titleEt.setText(it.title)
                 descriptionEt.setText(it.description)
+                doneCb.isChecked = it.done
 
                 // Verifica se está em modo de leitura
                 val viewTask = intent.getBooleanExtra(EXTRA_VIEW_TASK, false)
@@ -63,6 +64,7 @@ class TaskActivity : AppCompatActivity() {
                     titleEt.isEnabled = false
                     descriptionEt.isEnabled = false
                     limitDateBt.isEnabled = false
+                    doneCb.isEnabled = false
                     saveBt.visibility = View.GONE
                     cancelBt.visibility = View.GONE
                 }
@@ -97,7 +99,8 @@ class TaskActivity : AppCompatActivity() {
                     id = receivedTask?.id?:hashCode(),
                     title = titleEt.text.toString(),
                     description = descriptionEt.text.toString(),
-                    limitDate = selectedDate ?: Date()
+                    limitDate = selectedDate ?: Date(),
+                    done = doneCb.isChecked
                 ).let { task ->
                     // Retorna a tarefa como resultado para a MainActivity
                     Intent().apply {
