@@ -63,14 +63,16 @@ class MainController(mainActivity: MainActivity) {
     }
 
     /**
-     * Remove uma tarefa do banco de dados
-     * Executa em corrotina fora da thread principal
+     * Remove logicamente a tarefa
      */
     fun removeTask(task: Task) {
+        /**
         MainScope().launch {
-            withContext(Dispatchers.IO) {
-                taskDao.deleteTask(task)
-            }
+        withContext(Dispatchers.IO) {
+        taskDao.deleteTask(task)
         }
+        } */
+        task.deleted = true
+        modifyTask(task)
     }
 }
