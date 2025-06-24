@@ -16,8 +16,13 @@ class DeletedTasksController(context: Context) {
 
     fun getDeletedTasks(): List<Task> = taskDao.getDeletedTasks()
 
-    fun reativarTarefa(task: Task) {
+    fun reactivateTask(task: Task) {
         task.deleted = false
+        taskDao.updateTask(task)
+    }
+
+    fun deleteTask(task: Task) {
+        task.deleted = true
         taskDao.updateTask(task)
     }
 }
