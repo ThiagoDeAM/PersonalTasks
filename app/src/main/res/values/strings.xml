@@ -11,4 +11,6 @@
     <string name="task_list">Lista de tarefas</string>
     <string name="select_date">Selecionar data</string>
     <string name="finished">Realizada</string>
+    <string name="reativar_tarefa">Reativar tarefa</string>
+    <string name="detalhes">Detalhes</string>
 </resources>

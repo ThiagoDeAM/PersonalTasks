@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reativar_task_mi"
+        android:title="@string/reativar_tarefa" />
+
+    <item
+        android:id="@+id/detalhes_task_mi"
+        android:title="@string/detalhes" />
+</menu>
