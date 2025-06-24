@@ -12,6 +12,9 @@ import com.example.personaltasks.adapter.DeletedTaskAdapter
 import com.example.personaltasks.controller.DeletedTasksController
 import com.example.personaltasks.databinding.ActivityDeletedTasksBinding
 import com.example.personaltasks.model.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DeletedTasksActivity : AppCompatActivity() {
 
@@ -39,7 +42,17 @@ class DeletedTasksActivity : AppCompatActivity() {
         adtb.deletedRv.adapter = deletedAdapter
         adtb.deletedRv.layoutManager = LinearLayoutManager(this)
 
+        loadDeletedTasks()
+    }
 
-
+    private fun loadDeletedTasks() {
+        lifecycleScope.launch {
+            val deletedTasks = withContext(Dispatchers.IO) {
+                deletedController.getDeletedTasks()
+            }
+            deletedTaskList.clear()
+            deletedTaskList.addAll(deletedTasks)
+            deletedAdapter.notifyDataSetChanged()
+        }
     }
 }
