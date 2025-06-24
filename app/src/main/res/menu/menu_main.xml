@@ -7,4 +7,10 @@
         android:iconTint="@color/white"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/deleted_tasks_mi"
+        android:title="@string/tarefas_excluidas"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="never" />
+
 </menu>

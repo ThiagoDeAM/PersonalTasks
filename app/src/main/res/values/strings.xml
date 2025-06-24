@@ -13,4 +13,5 @@
     <string name="finished">Realizada</string>
     <string name="reativar_tarefa">Reativar tarefa</string>
     <string name="detalhes">Detalhes</string>
+    <string name="tarefas_excluidas">Tarefas Excluídas</string>
 </resources>
