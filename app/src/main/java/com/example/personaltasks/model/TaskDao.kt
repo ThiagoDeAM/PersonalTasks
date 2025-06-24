@@ -21,4 +21,6 @@ interface TaskDao {
     fun updateTask(task: Task): Int
     @Delete
     fun deleteTask(task: Task): Int
+    @Query("SELECT * FROM Task WHERE deleted = 1")
+    fun getDeletedTasks(): List<Task>
 }
