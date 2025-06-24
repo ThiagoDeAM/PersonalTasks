@@ -105,6 +105,10 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
                 carl.launch(Intent(this, TaskActivity::class.java))
                 true
             }
+            R.id.deleted_tasks_mi -> {
+                startActivity(Intent(this, DeletedTasksActivity::class.java))
+                true
+            }
             else -> { false }
         }
     }
