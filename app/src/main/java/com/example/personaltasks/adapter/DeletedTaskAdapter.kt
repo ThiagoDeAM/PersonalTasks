@@ -20,6 +20,8 @@ import com.example.personaltasks.ui.TaskActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DeletedTaskAdapter(
     private val context: Context,
@@ -75,7 +77,11 @@ class DeletedTaskAdapter(
     }
 
     override fun onBindViewHolder(holder: DeletedTaskViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val task = tasks[position]
+        holder.ttb.titleTv.text = task.title
+        holder.ttb.descriptionTv.text = task.description
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        holder.ttb.dateTv.text = sdf.format(task.limitDate)
     }
 
     override fun getItemCount(): Int = tasks.size
