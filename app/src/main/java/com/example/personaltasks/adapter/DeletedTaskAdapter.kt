@@ -3,6 +3,7 @@ package com.example.personaltasks.adapter
 import android.content.Context
 import android.content.Intent
 import android.view.ContextMenu
+import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ class DeletedTaskAdapter(
                     val task = tasks[adapterPosition]
                     lifecycleScope.launch {
                         withContext(Dispatchers.IO) {
-
+                            deletedController.reactivateTask(task)
                         }
                         tasks.removeAt(adapterPosition)
                         notifyItemRemoved(adapterPosition)
@@ -69,7 +70,8 @@ class DeletedTaskAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeletedTaskViewHolder {
-        TODO("Not yet implemented")
+        val ttb = TileTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return DeletedTaskViewHolder(ttb)
     }
 
     override fun getItemCount(): Int {
