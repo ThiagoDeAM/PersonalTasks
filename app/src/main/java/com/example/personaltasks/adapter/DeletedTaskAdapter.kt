@@ -74,11 +74,9 @@ class DeletedTaskAdapter(
         return DeletedTaskViewHolder(ttb)
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
-
     override fun onBindViewHolder(holder: DeletedTaskViewHolder, position: Int) {
         TODO("Not yet implemented")
     }
+
+    override fun getItemCount(): Int = tasks.size
 }
