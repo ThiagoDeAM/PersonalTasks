@@ -2,6 +2,7 @@ package com.example.personaltasks.controller
 
 import android.content.Context
 import androidx.room.Room
+import com.example.personaltasks.model.Task
 import com.example.personaltasks.model.TaskDao
 import com.example.personaltasks.model.TaskRoomDb
 
@@ -13,4 +14,10 @@ class DeletedTasksController(context: Context) {
         "task-database"
     ).build().taskDao()
 
+    fun getDeletedTasks(): List<Task> = taskDao.getDeletedTasks()
+
+    fun reativarTarefa(task: Task) {
+        task.deleted = false
+        taskDao.updateTask(task)
+    }
 }
