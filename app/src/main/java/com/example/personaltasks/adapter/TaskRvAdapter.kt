@@ -35,7 +35,7 @@ class TaskRvAdapter(
 
         init {
             // Define o menu de contexto (ao pressionar longamente no item)
-            ttb.root.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            ttb.root.setOnCreateContextMenuListener { menu, _, _ ->
                 (onTaskClickListener as AppCompatActivity).menuInflater.inflate(R.menu.context_menu_main, menu)
                 menu.findItem(R.id.edit_task_mi).setOnMenuItemClickListener {
                     onTaskClickListener.onEditTaskMenuItemClick(adapterPosition)
@@ -68,27 +68,20 @@ class TaskRvAdapter(
     )
 
   //Liga os dados da tarefa à view do ViewHolder.
-    override fun onBindViewHolder(
-        holder: TaskViewHolder,
-        position: Int
-    ) {
-        taskList[position].let { task ->
-            with(holder) {
-                titleTv.text = task.title
-                descriptionTv.text = task.description
-                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                dateTv.text = formatter.format(task.limitDate)
+  override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+      val task = taskList[position]
+      with(holder) {
+          // Atualiza título com o status
+          val status = if (task.done) "[Realizada]" else "[Pendente]"
+          val formattedTitle = itemView.context.getString(R.string.task_title_with_status, task.title, status)
+          titleTv.text = formattedTitle
 
-                if (task.done) {
-                    titleTv.text = task.title + " [Realizada]"
-                }
-                else {
-                    titleTv.text = task.title + " [Pendente]"
-                }
+          descriptionTv.text = task.description
 
-            }
-        }
-    }
+          val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+          dateTv.text = formatter.format(task.limitDate)
+      }
+  }
 
     // Retorna o número total de itens na lista.
     override fun getItemCount(): Int = taskList.size
