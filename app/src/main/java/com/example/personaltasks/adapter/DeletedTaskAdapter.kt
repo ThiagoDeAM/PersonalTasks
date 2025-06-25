@@ -1,5 +1,6 @@
 package com.example.personaltasks.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.ContextMenu
@@ -17,6 +18,7 @@ import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
 import com.example.personaltasks.ui.TaskActivity
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +29,8 @@ class DeletedTaskAdapter(
     private val context: Context,
     private val tasks: MutableList<Task>,
     private val deletedController: DeletedTasksController,
-    private val lifecycleScope: LifecycleCoroutineScope
+    private val lifecycleScope: LifecycleCoroutineScope,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): RecyclerView.Adapter<DeletedTaskAdapter.DeletedTaskViewHolder>() {
     inner class DeletedTaskViewHolder(val ttb: TileTaskBinding) :
         RecyclerView.ViewHolder(ttb.root), View.OnCreateContextMenuListener {
@@ -45,11 +48,12 @@ class DeletedTaskAdapter(
                 menu?.findItem(R.id.reativar_task_mi)?.setOnMenuItemClickListener {
                     val task = tasks[adapterPosition]
                     lifecycleScope.launch {
-                        withContext(Dispatchers.IO) {
+                        withContext(dispatcher) {
                             deletedController.reactivateTask(task)
                         }
                         tasks.removeAt(adapterPosition)
                         notifyItemRemoved(adapterPosition)
+                        (context as Activity).setResult(Activity.RESULT_OK)
                         Toast.makeText(context, "Tarefa reativada", Toast.LENGTH_SHORT).show()
                     }
                     true
