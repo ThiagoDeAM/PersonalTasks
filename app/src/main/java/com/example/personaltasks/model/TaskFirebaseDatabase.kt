@@ -78,7 +78,8 @@ class TaskFirebaseDatabase: TaskDao {
     }
 
     override fun deleteTask(task: Task): Int {
-        TODO("Not yet implemented")
+        databaseReference.child(task.id.toString()).removeValue()
+        return 1
     }
 
     override fun getDeletedTasks(): List<Task> {
