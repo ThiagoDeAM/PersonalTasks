@@ -131,8 +131,10 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         amb.taskRv.adapter = taskAdapter
         amb.taskRv.layoutManager = LinearLayoutManager(this)
 
-        // Carrega as tarefas persistidas do banco
-        fillContactList()
+        getTasksHandler.sendMessageDelayed(
+            Message().apply { what = GET_TASKS_MESSAGE },
+            GET_TASKS_INTERVAL
+        )
     }
 
     // Infla o menu superior
