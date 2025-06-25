@@ -31,6 +31,11 @@ class TaskFirebaseDatabase: TaskDao {
                 }
             }
 
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                val task = snapshot.getValue<Task>()
+                task?.let { taskList.remove(it) }
+            }
+
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
                 // NSA
             }
