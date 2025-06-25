@@ -1,11 +1,14 @@
 package com.example.personaltasks.controller
 
+import android.os.Message
 import androidx.room.Room
 import com.example.personaltasks.model.Task
 import com.example.personaltasks.model.TaskDao
+import com.example.personaltasks.model.TaskFirebaseDatabase
 import com.example.personaltasks.model.TaskRoomDb
 import com.example.personaltasks.ui.MainActivity
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,14 +19,18 @@ import kotlinx.coroutines.withContext
  *
  * @param mainActivity contexto da Activity principal, utilizado para instanciar o banco
  */
-class MainController(mainActivity: MainActivity) {
+class MainController(private val mainActivity: MainActivity) {
 
     // Instancia o DAO de tarefas usando Room
+    /**
     private val taskDao: TaskDao = Room.databaseBuilder(
         mainActivity,
         TaskRoomDb::class.java,
         "task-database"
-    ).build().taskDao()
+    ).build().taskDao()*/
+
+    private val taskDao: TaskDao = TaskFirebaseDatabase()
+    private val databaseCoroutineScope = CoroutineScope(Dispatchers.IO)
 
     /**
      * Insere uma nova tarefa no banco de dados utilizando corrotina
@@ -43,9 +50,12 @@ class MainController(mainActivity: MainActivity) {
     /**
      * Recupera todas as tarefas salvas no banco de dados.
      */
-    suspend fun getTasks(ioDispatcher: CoroutineDispatcher = Dispatchers.IO): List<Task> {
+    suspend fun getTasks(ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
         return withContext(ioDispatcher) {
-            taskDao.retrieveActiveTasks()
+            val taskList = taskDao.retrieveActiveTasks()
+            mainActivity.getTasksHandler.sendMessage(Message().apply {
+                data.putParcelableArray(EXTRA_TASK_ARRAY, taskList.toTypedArray())
+            })
         }
     }
 
