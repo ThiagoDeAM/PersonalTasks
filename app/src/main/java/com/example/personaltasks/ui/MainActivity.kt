@@ -3,6 +3,9 @@ package com.example.personaltasks.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -16,6 +19,7 @@ import com.example.personaltasks.adapter.TaskRvAdapter
 import com.example.personaltasks.controller.MainController
 import com.example.personaltasks.databinding.ActivityMainBinding
 import com.example.personaltasks.model.Constant.EXTRA_TASK
+import com.example.personaltasks.model.Constant.EXTRA_TASK_ARRAY
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
 import kotlinx.coroutines.launch
@@ -47,6 +51,35 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     private lateinit var deletedTasksLauncher: ActivityResultLauncher<Intent>
+
+    // Handler
+    companion object {
+        const val GET_TASKS_MESSAGE = 1
+        const val GET_TASKS_INTERVAL = 2000L
+    }
+    val getTasksHandler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if (msg.what == GET_TASKS_MESSAGE) {
+                mainController.getTasks()
+                sendMessageDelayed(
+                    obtainMessage().apply { what = GET_TASKS_MESSAGE },
+                    GET_TASKS_INTERVAL
+                )
+            }
+            else {
+                val taskArray = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    msg.data.getParcelableArray(EXTRA_TASK_ARRAY, Task::class.java)
+                }
+                else {
+                    msg.data.getParcelableArray(EXTRA_TASK_ARRAY)
+                }
+                taskList.clear()
+                taskArray?.forEach { taskList.add(it as Task) }
+                taskAdapter.notifyDataSetChanged()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
