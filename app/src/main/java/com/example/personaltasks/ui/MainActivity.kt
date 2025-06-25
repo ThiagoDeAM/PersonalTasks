@@ -151,6 +151,11 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        fillContactList()
+    }
+
     /**
      * Preenche a RecyclerView com as tarefas salvas no BD.
      * A operação de leitura utiliza corrotinas.
