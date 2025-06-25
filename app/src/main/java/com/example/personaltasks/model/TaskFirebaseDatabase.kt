@@ -1,6 +1,31 @@
 package com.example.personaltasks.model
 
+import com.google.firebase.Firebase
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.database
+import com.google.firebase.database.getValue
+
 class TaskFirebaseDatabase: TaskDao {
+
+    private val databaseReference = Firebase.database.getReference("taskList")
+    private val taskList = mutableListOf<Task>()
+
+    init {
+        databaseReference.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val task = snapshot.getValue<Task>()
+                task?.let { newTask ->
+                    if (!taskList.any {it.id == newTask.id}) {
+                        taskList.add(newTask)
+                    }
+                }
+            }
+
+
+        })
+    }
+
     override fun createTask(task: Task): Long {
         TODO("Not yet implemented")
     }
