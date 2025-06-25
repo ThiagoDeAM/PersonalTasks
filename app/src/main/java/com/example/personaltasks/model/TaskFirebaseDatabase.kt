@@ -73,7 +73,8 @@ class TaskFirebaseDatabase: TaskDao {
     }
 
     override fun updateTask(task: Task): Int {
-        TODO("Not yet implemented")
+        databaseReference.child(task.id.toString()).setValue(task)
+        return 1
     }
 
     override fun deleteTask(task: Task): Int {
