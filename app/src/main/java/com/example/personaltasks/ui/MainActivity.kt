@@ -18,9 +18,7 @@ import com.example.personaltasks.databinding.ActivityMainBinding
 import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * Responsável por exibir a lista de tarefas e permitir sua criação, edição e remoção
@@ -48,6 +46,8 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         MainController(this)
     }
 
+    private lateinit var deletedTasksLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(amb.root)
@@ -67,19 +67,29 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
                     result.data?.getParcelableExtra<Task>(EXTRA_TASK)
                 }
                 task?.let { receivedTask ->
-                    val position = taskList.indexOfFirst { it.id == receivedTask.id }
-                    if (position == -1) {
-                        // Nova tarefa -> adiciona à lista e inssere no banco
-                        taskList.add(receivedTask)
-                        taskAdapter.notifyItemInserted(taskList.lastIndex)
-                        mainController.insertTask(receivedTask)
+                    lifecycleScope.launch {
+                        val position = taskList.indexOfFirst { it.id == receivedTask.id }
+                        if (position == -1) {
+                            // Nova tarefa -> adiciona à lista e insere no banco
+                            taskList.add(receivedTask)
+                            taskAdapter.notifyItemInserted(taskList.lastIndex)
+                            mainController.insertTask(receivedTask)
+                        }
+                        else {
+                            // Edição de tarefa existente
+                            taskList[position] = receivedTask
+                            taskAdapter.notifyItemChanged(position)
+                            mainController.modifyTask(receivedTask)
+                        }
                     }
-                    else {
-                        // Edição de tarefa existente
-                        taskList[position] = receivedTask
-                        taskAdapter.notifyItemChanged(position)
-                        mainController.modifyTask(receivedTask)
-                    }
+                }
+            }
+        }
+
+        deletedTasksLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                lifecycleScope.launch {
+                    fillContactList()
                 }
             }
         }
@@ -106,7 +116,7 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
                 true
             }
             R.id.deleted_tasks_mi -> {
-                startActivity(Intent(this, DeletedTasksActivity::class.java))
+                deletedTasksLauncher.launch(Intent(this, DeletedTasksActivity::class.java))
                 true
             }
             else -> { false }
@@ -125,7 +135,7 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         Intent(this, TaskActivity::class.java).apply {
             putExtra(EXTRA_TASK, taskList[position])
             putExtra(EXTRA_VIEW_TASK, true)
-            startActivity(this)
+            carl.launch(this)
         }
     }
 
@@ -134,10 +144,12 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
      * Remove a tarefa da lista e do BD
      */
     override fun onRemoveTaskMenuItemClick(position: Int) {
-        mainController.removeTask(taskList[position])
-        taskList.removeAt(position)
-        taskAdapter.notifyItemRemoved(position)
-        Toast.makeText(this, "Tarefa removida!", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            mainController.removeTask(taskList[position])
+            taskList.removeAt(position)
+            taskAdapter.notifyItemRemoved(position)
+            Toast.makeText(this@MainActivity, "Tarefa removida!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**
@@ -151,20 +163,13 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        fillContactList()
-    }
-
     /**
      * Preenche a RecyclerView com as tarefas salvas no BD.
      * A operação de leitura utiliza corrotinas.
      */
     private fun fillContactList() {
         lifecycleScope.launch {
-            val tasks = withContext(Dispatchers.IO) {
-                mainController.getTasks()
-            }
+            val tasks = mainController.getTasks()
             taskList.clear()
             taskList.addAll(tasks)
             taskAdapter.notifyDataSetChanged()
