@@ -5,9 +5,8 @@ import com.example.personaltasks.model.Task
 import com.example.personaltasks.model.TaskDao
 import com.example.personaltasks.model.TaskRoomDb
 import com.example.personaltasks.ui.MainActivity
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
@@ -30,11 +29,9 @@ class MainController(mainActivity: MainActivity) {
      * Insere uma nova tarefa no banco de dados utilizando corrotina
      * A operação é assíncrona para não travar a UI
      */
-    fun insertTask(task: Task) {
-        MainScope().launch {
-            withContext(Dispatchers.IO) {
-                taskDao.createTask(task)
-            }
+    suspend fun insertTask(task: Task, ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
+        withContext(ioDispatcher) {
+            taskDao.createTask(task)
         }
     }
 
@@ -46,31 +43,35 @@ class MainController(mainActivity: MainActivity) {
     /**
      * Recupera todas as tarefas salvas no banco de dados.
      */
-    fun getTasks() = taskDao.retrieveActiveTasks()
+    suspend fun getTasks(ioDispatcher: CoroutineDispatcher = Dispatchers.IO): List<Task> {
+        return withContext(ioDispatcher) {
+            taskDao.retrieveActiveTasks()
+        }
+    }
 
     /**
      * Atualiza os dados de uma tarefa existente no banco.
      * Executa em segundo plano com corrotina.
      */
-    fun modifyTask(task: Task) {
-        MainScope().launch {
-            withContext(Dispatchers.IO) {
-                taskDao.updateTask(task)
-            }
+    suspend fun modifyTask(task: Task, ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
+        withContext(ioDispatcher) {
+            taskDao.updateTask(task)
         }
     }
 
     /**
      * Remove logicamente a tarefa
      */
-    fun removeTask(task: Task) {
+    suspend fun removeTask(task: Task, ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
         /**
         MainScope().launch {
         withContext(Dispatchers.IO) {
         taskDao.deleteTask(task)
         }
         } */
-        task.deleted = true
-        modifyTask(task)
+        withContext(ioDispatcher) {
+            task.deleted = true
+            taskDao.updateTask(task)
+        }
     }
 }
