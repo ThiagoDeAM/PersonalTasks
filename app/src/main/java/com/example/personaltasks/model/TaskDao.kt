@@ -23,4 +23,6 @@ interface TaskDao {
     fun deleteTask(task: Task): Int
     @Query("SELECT * FROM Task WHERE deleted = 1")
     fun getDeletedTasks(): List<Task>
+    @Query("SELECT * FROM Task WHERE deleted = 0")
+    fun retrieveActiveTasks(): List<Task>
 }
