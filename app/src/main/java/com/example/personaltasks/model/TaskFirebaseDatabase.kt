@@ -4,6 +4,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.database.getValue
 
@@ -36,6 +37,16 @@ class TaskFirebaseDatabase: TaskDao {
 
             override fun onCancelled(error: DatabaseError) {
                 // NSA
+            }
+        })
+
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val taskMap = snapshot.getValue<Map<String, Task>>()
+                taskList.clear()
+                taskMap?.values?.also {
+                    taskList.addAll(it)
+                }
             }
         })
     }
