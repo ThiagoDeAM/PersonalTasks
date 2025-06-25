@@ -14,4 +14,5 @@
     <string name="reativar_tarefa">Reativar tarefa</string>
     <string name="detalhes">Detalhes</string>
     <string name="tarefas_excluidas">Tarefas Excluídas</string>
+    <string name="task_title_with_status">%1$s %2$s</string>
 </resources>
