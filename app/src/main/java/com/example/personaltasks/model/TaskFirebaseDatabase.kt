@@ -87,7 +87,6 @@ class TaskFirebaseDatabase: TaskDao {
     }
 
     override fun retrieveActiveTasks(): List<Task> {
-        TODO("Not yet implemented")
+        return taskList.filter { !it.deleted }
     }
-
 }
