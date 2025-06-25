@@ -46,7 +46,7 @@ class MainController(mainActivity: MainActivity) {
     /**
      * Recupera todas as tarefas salvas no banco de dados.
      */
-    fun getTasks() = taskDao.retrieveTasks()
+    fun getTasks() = taskDao.retrieveActiveTasks()
 
     /**
      * Atualiza os dados de uma tarefa existente no banco.
