@@ -69,7 +69,7 @@ class TaskFirebaseDatabase: TaskDao {
         taskList[taskList.indexOfFirst { it.id == id }]
 
     override fun retrieveTasks(): MutableList<Task> {
-        TODO("Not yet implemented")
+        return mutableListOf<Task>()
     }
 
     override fun updateTask(task: Task): Int {
