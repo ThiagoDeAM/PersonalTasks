@@ -48,6 +48,10 @@ class TaskFirebaseDatabase: TaskDao {
                     taskList.addAll(it)
                 }
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                // NSA
+            }
         })
     }
 
