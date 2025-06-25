@@ -81,14 +81,16 @@ class TaskActivity : AppCompatActivity() {
                 DatePickerDialog(
                     this@TaskActivity,
                     {_, year, month, dayOfMonth ->
-                        calendar.set(year, month, dayOfMonth)
+                        calendar[Calendar.YEAR] = year
+                        calendar[Calendar.MONTH] = month
+                        calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
                         selectedDate = calendar.time
                         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                         limitDateBt.text = sdf.format(selectedDate!!)
                     },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
+                    calendar[Calendar.YEAR],
+                    calendar[Calendar.MONTH],
+                    calendar[Calendar.DAY_OF_MONTH]
                 ).show()
             }
 
@@ -100,7 +102,8 @@ class TaskActivity : AppCompatActivity() {
                     title = titleEt.text.toString(),
                     description = descriptionEt.text.toString(),
                     limitDate = selectedDate ?: Date(),
-                    done = doneCb.isChecked
+                    done = doneCb.isChecked,
+                    deleted = receivedTask?.deleted ?: false
                 ).let { task ->
                     // Retorna a tarefa como resultado para a MainActivity
                     Intent().apply {
