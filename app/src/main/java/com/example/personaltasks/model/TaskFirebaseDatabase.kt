@@ -61,7 +61,8 @@ class TaskFirebaseDatabase: TaskDao {
     }
 
     override fun createTask(task: Task): Long {
-        TODO("Not yet implemented")
+        databaseReference.child(task.id.toString()).setValue(task)
+        return 1L
     }
 
     override fun retrieveTask(id: Int): Task {
