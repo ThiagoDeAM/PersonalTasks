@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.personaltasks.R
@@ -53,7 +54,7 @@ class DeletedTaskAdapter(
                         }
                         tasks.removeAt(adapterPosition)
                         notifyItemRemoved(adapterPosition)
-                        (context as Activity).setResult(Activity.RESULT_OK)
+                        (context as AppCompatActivity).setResult(Activity.RESULT_OK)
                         Toast.makeText(context, "Tarefa reativada", Toast.LENGTH_SHORT).show()
                     }
                     true
