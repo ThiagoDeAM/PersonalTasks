@@ -69,7 +69,7 @@ class TaskFirebaseDatabase: TaskDao {
         taskList[taskList.indexOfFirst { it.id == id }]
 
     override fun retrieveTasks(): MutableList<Task> {
-        return mutableListOf<Task>()
+        return taskList.toMutableList()
     }
 
     override fun updateTask(task: Task): Int {
@@ -78,7 +78,8 @@ class TaskFirebaseDatabase: TaskDao {
     }
 
     override fun deleteTask(task: Task): Int {
-        databaseReference.child(task.id.toString()).removeValue()
+        task.deleted = true
+        databaseReference.child(task.id.toString()).setValue(task)
         return 1
     }
 
