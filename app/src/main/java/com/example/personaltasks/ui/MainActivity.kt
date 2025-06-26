@@ -165,6 +165,13 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (Firebase.auth.currentUser == null) {
+            finish()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
     }
