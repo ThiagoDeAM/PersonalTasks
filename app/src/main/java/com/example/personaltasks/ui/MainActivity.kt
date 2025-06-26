@@ -22,6 +22,8 @@ import com.example.personaltasks.model.Constant.EXTRA_TASK
 import com.example.personaltasks.model.Constant.EXTRA_TASK_ARRAY
 import com.example.personaltasks.model.Constant.EXTRA_VIEW_TASK
 import com.example.personaltasks.model.Task
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 /**
@@ -152,6 +154,11 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
             }
             R.id.deleted_tasks_mi -> {
                 deletedTasksLauncher.launch(Intent(this, DeletedTasksActivity::class.java))
+                true
+            }
+            R.id.sign_out_mi -> {
+                Firebase.auth.signOut()
+                finish()
                 true
             }
             else -> { false }
