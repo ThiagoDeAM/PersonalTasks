@@ -1,18 +1,19 @@
 package com.example.personaltasks.controller
 
-import android.content.Context
-import androidx.room.Room
 import com.example.personaltasks.model.Task
 import com.example.personaltasks.model.TaskDao
-import com.example.personaltasks.model.TaskRoomDb
+import com.example.personaltasks.model.TaskFirebaseDatabase
 
-class DeletedTasksController(context: Context) {
+class DeletedTasksController {
 
+    /**
     private val taskDao: TaskDao = Room.databaseBuilder(
         context,
         TaskRoomDb::class.java,
         "task-database"
-    ).build().taskDao()
+    ).build().taskDao() */
+
+    private val taskDao: TaskDao = TaskFirebaseDatabase()
 
     fun getDeletedTasks(): List<Task> = taskDao.getDeletedTasks()
 
