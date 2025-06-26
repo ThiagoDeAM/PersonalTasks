@@ -24,4 +24,13 @@ data class Task(
     var done: Boolean = false,
     var deleted: Boolean = false
 
-): Parcelable
+): Parcelable {
+    constructor() : this(
+        id = INVALID_TASK_ID,
+        title = "",
+        description = "",
+        limitDate = Date(),
+        done = false,
+        deleted = false
+    )
+}
