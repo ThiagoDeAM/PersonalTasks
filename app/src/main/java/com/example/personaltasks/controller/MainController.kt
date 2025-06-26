@@ -8,10 +8,9 @@ import com.example.personaltasks.model.TaskDao
 import com.example.personaltasks.model.TaskFirebaseDatabase
 import com.example.personaltasks.model.TaskRoomDb
 import com.example.personaltasks.ui.MainActivity
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 /**
  * Controlador responsável por intermediar o acesso entre a camada de UI (Activity)
@@ -37,8 +36,8 @@ class MainController(private val mainActivity: MainActivity) {
      * Insere uma nova tarefa no banco de dados utilizando corrotina
      * A operação é assíncrona para não travar a UI
      */
-    suspend fun insertTask(task: Task, ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
-        withContext(ioDispatcher) {
+    fun insertTask(task: Task) {
+        databaseCoroutineScope.launch {
             taskDao.createTask(task)
         }
     }
@@ -46,13 +45,15 @@ class MainController(private val mainActivity: MainActivity) {
     /**
      * Recupera uma única tarefa pelo seu ID.
      */
-    fun getTask(id: Int) = taskDao.retrieveTask(id)
+    fun getTask(id: Int) = databaseCoroutineScope.launch {
+        taskDao.retrieveTask(id)
+    }
 
     /**
      * Recupera todas as tarefas salvas no banco de dados.
      */
-    suspend fun getTasks(ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
-        return withContext(ioDispatcher) {
+    fun getTasks() {
+        databaseCoroutineScope.launch {
             val taskList = taskDao.retrieveActiveTasks()
             mainActivity.getTasksHandler.sendMessage(Message().apply {
                 data.putParcelableArray(EXTRA_TASK_ARRAY, taskList.toTypedArray())
@@ -64,8 +65,8 @@ class MainController(private val mainActivity: MainActivity) {
      * Atualiza os dados de uma tarefa existente no banco.
      * Executa em segundo plano com corrotina.
      */
-    suspend fun modifyTask(task: Task, ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
-        withContext(ioDispatcher) {
+    fun modifyTask(task: Task) {
+        databaseCoroutineScope.launch {
             taskDao.updateTask(task)
         }
     }
@@ -73,14 +74,14 @@ class MainController(private val mainActivity: MainActivity) {
     /**
      * Remove logicamente a tarefa
      */
-    suspend fun removeTask(task: Task, ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
+    fun removeTask(task: Task) {
         /**
         MainScope().launch {
         withContext(Dispatchers.IO) {
         taskDao.deleteTask(task)
         }
         } */
-        withContext(ioDispatcher) {
+        databaseCoroutineScope.launch {
             task.deleted = true
             taskDao.updateTask(task)
         }
