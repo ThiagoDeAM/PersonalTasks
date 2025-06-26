@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/add_task_mi"
         android:title="@string/add_task"
-        android:icon="@drawable/outline_add_box_24"
+        android:icon="@android:drawable/ic_menu_add"
         android:iconTint="@color/white"
         app:showAsAction="always" />
 
@@ -11,6 +11,14 @@
         android:id="@+id/deleted_tasks_mi"
         android:title="@string/tarefas_excluidas"
         android:icon="@android:drawable/ic_menu_delete"
-        app:showAsAction="never" />
+        android:iconTint="@color/design_default_color_on_primary"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/sign_out_mi"
+        android:title="@string/sign_out"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:iconTint="@color/design_default_color_on_primary"
+        app:showAsAction="ifRoom" />
 
 </menu>
