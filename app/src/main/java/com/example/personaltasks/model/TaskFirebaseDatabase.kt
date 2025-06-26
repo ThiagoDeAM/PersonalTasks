@@ -27,7 +27,13 @@ class TaskFirebaseDatabase: TaskDao {
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val task = snapshot.getValue<Task>()
                 task?.let { editedTask ->
-                    taskList[taskList.indexOfFirst { it.id == editedTask.id }] = editedTask
+                    val index = taskList.indexOfFirst { it.id == editedTask.id }
+                    if (index != -1) {
+                        taskList[index] = editedTask
+                    }
+                    else {
+                        taskList.add(editedTask)
+                    }
                 }
             }
 
@@ -84,7 +90,7 @@ class TaskFirebaseDatabase: TaskDao {
     }
 
     override fun getDeletedTasks(): List<Task> {
-        return taskList.filter { it.deleted }
+        return taskList.filter { it.deleted }.toList()
     }
 
     override fun retrieveActiveTasks(): List<Task> {
