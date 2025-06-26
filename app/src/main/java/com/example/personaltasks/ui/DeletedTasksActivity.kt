@@ -1,20 +1,17 @@
 package com.example.personaltasks.ui
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.personaltasks.R
 import com.example.personaltasks.adapter.DeletedTaskAdapter
 import com.example.personaltasks.controller.DeletedTasksController
 import com.example.personaltasks.databinding.ActivityDeletedTasksBinding
 import com.example.personaltasks.model.Task
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DeletedTasksActivity : AppCompatActivity() {
 
@@ -25,11 +22,28 @@ class DeletedTasksActivity : AppCompatActivity() {
     private val deletedTaskList: MutableList<Task> = mutableListOf()
 
     private val deletedController by lazy {
-        DeletedTasksController(this)
+        DeletedTasksController()
     }
 
     private val deletedAdapter by lazy {
         DeletedTaskAdapter(this, deletedTaskList, deletedController, lifecycleScope)
+    }
+
+    companion object {
+        const val GET_DELETED_TASKS_MESSAGE = 2
+        const val GET_DELETED_TASKS_INTERVAL = 1000L
+    }
+
+    private val getDeletedTasksHandler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            if (msg.what == GET_DELETED_TASKS_MESSAGE) {
+                loadDeletedTasks()
+                sendMessageDelayed(
+                    obtainMessage(GET_DELETED_TASKS_MESSAGE),
+                    GET_DELETED_TASKS_INTERVAL
+                )
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,14 +56,20 @@ class DeletedTasksActivity : AppCompatActivity() {
         adtb.deletedRv.adapter = deletedAdapter
         adtb.deletedRv.layoutManager = LinearLayoutManager(this)
 
-        loadDeletedTasks()
+        getDeletedTasksHandler.sendMessageDelayed(
+            Message().apply { what = GET_DELETED_TASKS_MESSAGE },
+            GET_DELETED_TASKS_INTERVAL
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getDeletedTasksHandler.removeCallbacksAndMessages(null)
     }
 
     private fun loadDeletedTasks() {
         lifecycleScope.launch {
-            val deletedTasks = withContext(Dispatchers.IO) {
-                deletedController.getDeletedTasks()
-            }
+            val deletedTasks = deletedController.getDeletedTasks()
             deletedTaskList.clear()
             deletedTaskList.addAll(deletedTasks)
             deletedAdapter.notifyDataSetChanged()
