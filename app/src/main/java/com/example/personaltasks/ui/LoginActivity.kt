@@ -52,6 +52,15 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+        alb.resetPasswordBt.setOnClickListener {
+            signInCoroutineScope.launch {
+                val email = alb.emailLoginEt.text.toString()
+                if (email.isNotEmpty()) {
+                    Firebase.auth.sendPasswordResetEmail(email)
+                }
+            }
+        }
     }
 
     private fun openMainActivity() {
