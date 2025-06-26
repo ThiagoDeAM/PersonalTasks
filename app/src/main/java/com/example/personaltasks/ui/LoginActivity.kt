@@ -1,10 +1,8 @@
 package com.example.personaltasks.ui
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.personaltasks.R
 import com.example.personaltasks.databinding.ActivityLoginBinding
 
@@ -22,5 +20,8 @@ class LoginActivity : AppCompatActivity() {
         setSupportActionBar(alb.toolbarIn.toolbar)
         supportActionBar?.subtitle = getString(R.string.login)
 
+        alb.signUpBt.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 }
