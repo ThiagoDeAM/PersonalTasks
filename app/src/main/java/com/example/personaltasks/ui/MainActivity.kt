@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         deletedTasksLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 lifecycleScope.launch {
-                    fillContactList()
+                    mainController.getTasks()
                 }
             }
         }
@@ -195,19 +195,6 @@ class MainActivity : AppCompatActivity(), OnTaskClickListener {
         Intent(this, TaskActivity::class.java).apply {
             putExtra(EXTRA_TASK, taskList[position])
             carl.launch(this)
-        }
-    }
-
-    /**
-     * Preenche a RecyclerView com as tarefas salvas no BD.
-     * A operação de leitura utiliza corrotinas.
-     */
-    private fun fillContactList() {
-        lifecycleScope.launch {
-            val tasks = mainController.getTasks()
-            taskList.clear()
-            taskList.addAll(tasks)
-            taskAdapter.notifyDataSetChanged()
         }
     }
 }
