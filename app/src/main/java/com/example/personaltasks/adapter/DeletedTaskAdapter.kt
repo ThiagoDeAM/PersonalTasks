@@ -47,15 +47,17 @@ class DeletedTaskAdapter(
                 menuInflater().inflate(R.menu.context_menu_deleted, menu)
 
                 menu?.findItem(R.id.reativar_task_mi)?.setOnMenuItemClickListener {
-                    val task = tasks[adapterPosition]
+                    val position = adapterPosition
+                    val task = tasks[position]
                     lifecycleScope.launch {
                         withContext(dispatcher) {
                             deletedController.reactivateTask(task)
                         }
-                        tasks.removeAt(adapterPosition)
-                        notifyItemRemoved(adapterPosition)
+                        tasks.removeAt(position)
+                        notifyItemRemoved(position)
                         (context as AppCompatActivity).setResult(Activity.RESULT_OK)
-                        Toast.makeText(context, "Tarefa reativada", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,
+                            context.getString(R.string.task_reactivated), Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
