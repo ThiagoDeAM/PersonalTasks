@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+// Activity responsável pelo login do usuário usando Firebase Authentication
 class LoginActivity : AppCompatActivity() {
 
     private val alb: ActivityLoginBinding by lazy {
@@ -31,18 +32,19 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
+        // Botão de Login
         alb.signInBt.setOnClickListener {
             signInCoroutineScope.launch {
                 Firebase.auth.signInWithEmailAndPassword(
                     alb.emailLoginEt.text.toString(),
                     alb.passwordLoginEt.text.toString()
-                ).addOnFailureListener {
+                ).addOnFailureListener { // Caso de falha
                     Toast.makeText(
                         this@LoginActivity,
                         "Login failed. Cause: ${it.message}",
                         Toast.LENGTH_SHORT
                     ).show()
-                }.addOnSuccessListener {
+                }.addOnSuccessListener { // Caso de sucesso
                     Toast.makeText(
                         this@LoginActivity,
                         "Login successfully!",
@@ -53,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        // Botão para redefinição de senha
         alb.resetPasswordBt.setOnClickListener {
             signInCoroutineScope.launch {
                 val email = alb.emailLoginEt.text.toString()
@@ -63,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // Verifica se o usuário já está logado ao iniciar a Activity
     override fun onStart() {
         super.onStart()
         if (Firebase.auth.currentUser != null) {
@@ -70,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // Abre a tela principal e encerra a LoginActivity
     private fun openMainActivity() {
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         finish()
