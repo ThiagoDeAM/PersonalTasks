@@ -65,4 +65,5 @@ com.example.personaltasks
 
 ## Vídeo
 
-- [Execução final do Aplicativo](https://tinyurl.com/554e29er)
+- [Execução final do Aplicativo - Entrega 1](https://tinyurl.com/554e29er)
+- [Execução final do Aplicativo - Entrega 2](https://tinyurl.com/y866csc6)
