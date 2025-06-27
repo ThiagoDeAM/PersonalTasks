@@ -57,6 +57,12 @@ class TaskActivity : AppCompatActivity() {
                 descriptionEt.setText(it.description)
                 doneCb.isChecked = it.done
 
+                //if ()
+
+                //prioritySpinner.setSelection(getString(R.string.priority_spinner))
+
+                priorityEt.setText(it.priority)
+
                 // Verifica se está em modo de leitura
                 val viewTask = intent.getBooleanExtra(EXTRA_VIEW_TASK, false)
                 if (viewTask) {
@@ -64,6 +70,7 @@ class TaskActivity : AppCompatActivity() {
                     titleEt.isEnabled = false
                     descriptionEt.isEnabled = false
                     limitDateBt.isEnabled = false
+                    priorityEt.isEnabled = false
                     doneCb.isEnabled = false
                     saveBt.visibility = View.GONE
                     cancelBt.visibility = View.GONE
@@ -96,6 +103,7 @@ class TaskActivity : AppCompatActivity() {
 
             // Botão para salvar a tarefa
             saveBt.setOnClickListener {
+
                 // Cria uma nova Task (ou atualiza a existente)
                 Task (
                     id = receivedTask?.id?:hashCode(),
@@ -103,7 +111,11 @@ class TaskActivity : AppCompatActivity() {
                     description = descriptionEt.text.toString(),
                     limitDate = selectedDate ?: Date(),
                     done = doneCb.isChecked,
-                    deleted = receivedTask?.deleted ?: false
+                    deleted = receivedTask?.deleted ?: false,
+                    priority = priorityEt.text.toString()
+
+                    //priority = prioritySpinner.selectedItem.toString()
+
                 ).let { task ->
                     // Retorna a tarefa como resultado para a MainActivity
                     Intent().apply {

@@ -32,6 +32,7 @@ class TaskRvAdapter(
         val titleTv: TextView = ttb.titleTv
         val descriptionTv: TextView = ttb.descriptionTv
         val dateTv: TextView = ttb.dateTv
+        val priorityTv: TextView = ttb.priorityTv
 
         init {
             // Define o menu de contexto (ao pressionar longamente no item)
@@ -77,6 +78,8 @@ class TaskRvAdapter(
           titleTv.text = formattedTitle
 
           descriptionTv.text = task.description
+
+          priorityTv.text = task.priority
 
           val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
           dateTv.text = formatter.format(task.limitDate)

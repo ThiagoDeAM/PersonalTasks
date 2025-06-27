@@ -24,4 +24,10 @@
     <string name="register">Register</string>
     <string name="email">E-mail</string>
     <string name="sign_out">Sign Out</string>
+    <string name="prioridade">Prioridade</string>
+    <string name ="priority_spinner">
+        <item value="Alta">Alta</item>
+        <item value="Media">Média</item>
+        <item value="Baixa">Baixa</item>
+    </string>
 </resources>

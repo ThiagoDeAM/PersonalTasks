@@ -22,7 +22,8 @@ data class Task(
     var description: String = "",
     var limitDate: Date,
     var done: Boolean = false,
-    var deleted: Boolean = false
+    var deleted: Boolean = false,
+    var priority: String = ""
 
 ): Parcelable {
     constructor() : this(
@@ -31,6 +32,7 @@ data class Task(
         description = "",
         limitDate = Date(),
         done = false,
-        deleted = false
+        deleted = false,
+        priority = ""
     )
 }
